@@ -11,6 +11,8 @@ class Queue:
             print("Nothing in Queue")
     def display(self):
         print(self.q)
+    def is_empty(self):
+        return len(self.q) == 0
 
 def main():
     q1 = Queue()
