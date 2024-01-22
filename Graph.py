@@ -18,7 +18,7 @@ class Graph:
     def printlist(self):
         for i in self.adj_list:
             print(i, end='-->')
-            print(self.adj_list[i].sort())
+            print(self.adj_list[i])
 if __name__ == '__main__':
     a = int(input("Enter  Number of Vertices : "))
     g = Graph(a)
