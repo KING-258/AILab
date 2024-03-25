@@ -17,26 +17,24 @@ def fractional_knapsack(items, capacity):
             capacity = 0
     return cost, bag
 def zero_one_knapsack(items, capacity):
-    n = len(items)
-    sorted_items = sorted(items, key=lambda x: x[0])
-    capacity = int(capacity)
-    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
-    for i in range(1, n + 1):
-        weight_i, value_i = sorted_items[i - 1]
-        for w in range(1, capacity + 1):
-            if weight_i <= w:
-                dp[i][w] = max(dp[i - 1][w], dp[i - 1][int(w - weight_i)] + value_i)
-            else:
-                dp[i][w] = dp[i - 1][w]
-    cost = dp[n][capacity]
-    bag = []
-    w = capacity
-    for i in range(n, 0, -1):
-        weight_i, value_i = sorted_items[i - 1]
-        if dp[i][int(w)] != dp[i - 1][int(w)]:
-            bag.append((weight_i, value_i))
-            w -= weight_i
-    return cost, bag
+    sorted_items = sorted(items, key=lambda x: x[1] / x[0], reverse=True)
+    total_value = 0
+    bag = [0] * len(items)
+    for weight, value in sorted_items:
+        if capacity == 0:
+            break
+        if weight <= capacity:
+            total_value += value
+            capacity -= weight
+            index = items.index((weight, value))
+            bag[index] = 1
+        else:
+            fraction = capacity / weight
+            total_value += fraction * value
+            index = items.index((weight, value))
+            bag[index] = fraction
+            capacity = 0
+    return total_value, bag
 def main():
     num_items = int(input("Enter the number of items: "))
     items = []
